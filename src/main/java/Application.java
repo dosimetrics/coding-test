@@ -9,10 +9,12 @@ import java.util.*;
 public class Application {
 
     public static void main(String[] args) throws IOException {
-        new Application().run(readFileFromClasspath("icd-codes.txt"));
+        new Application().run(Util.readFileFromClasspath("icd-codes.txt"));
     }
 
     private void run(String data) {
+    	// You can ignore these lines for the task from here
+    	// 
         List codes = new ArrayList();
         for (String line : data.split("\r?\n")) {
             String[] parts = line.split(";");
@@ -23,6 +25,9 @@ public class Application {
                 }
             }
         }
+        //
+        // to here
+        
         Map r = hugo(codes);
         System.out.println(StringUtils.join(r.keySet(), ", "));
         System.out.println(StringUtils.join(r.values(), ", "));
@@ -40,19 +45,4 @@ public class Application {
         return a;
     }
 
-    public static String readFileFromClasspath(String filePath) throws IOException {
-        StringBuilder content = new StringBuilder();
-        InputStream inputStream = Application.class.getClassLoader().getResourceAsStream(filePath);
-        if (inputStream != null) {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                content.append(line).append("\n");
-            }
-            reader.close();
-        } else {
-            throw new IOException("File not found: " + filePath);
-        }
-        return content.toString();
-    }
 }
